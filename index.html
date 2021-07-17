@@ -10,6 +10,7 @@
       crossorigin="anonymous"
     ></script>
     <title>Carrot Game</title>
+    <script src="main.js" defer></script>
   </head>
   <body>
     <!-- statusInfor -->
@@ -23,13 +24,15 @@
 
       <!-- characters -->
       <section class="characters">
-        <img src="img/carrot.png" alt="carrot" class="carrot" />
-        <img src="img/bug.png" alt="bug" class="bug" />
+        <!-- <img src="img/bug.png" alt="bug" class="bug" /> -->
+        <div class="carrot"></div>
+        <!-- <img src= alt=""> -->
+        <!-- <img src="img/bug.png" alt="bug" class="bug" /> -->
       </section>
     </section>
 
     <!-- lose&win -->
-    <section class="loseAndWin">
+    <section class="loseAndWin loseAndWin_hide">
       <button class="redoBtn"><i class="fas fa-undo-alt"></i></button>
       <span class="replay">REPLAY ❓</span>
       <!-- <span class="lost">YOU LOST ☢</span>
