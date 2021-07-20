@@ -14,6 +14,12 @@ const win = "YOU WON ❤";
 
 const redoBtn = document.querySelector(".redoBtn");
 
+const bg_audio = new Audio("./sound/bg.mp3");
+const carrot_audio = new Audio("./sound/carrot_pull.mp3");
+const bug_audio = new Audio("./sound/bug_pull.mp3");
+const win_audio = new Audio("./sound/game_win.mp3");
+const lose_audio = new Audio("./sound/alert.wav");
+
 let timer_start;
 let started = false; //default
 let seconds = 10;
@@ -44,6 +50,7 @@ character.addEventListener("click", (event) => {
   }
   const target = event.target;
   if (target.className === "bug") {
+    playSound(bug_audio);
     gameStop(lose);
   } else if (target.className === "carrot") {
     updateScore(event);
@@ -57,6 +64,7 @@ function gameStart() {
   startBtnImg.className = "fas fa-square";
   startCountdown();
   hidePopUpMsg();
+  playSound(bg_audio);
 }
 
 function gameStop(txt) {
@@ -64,6 +72,7 @@ function gameStop(txt) {
   stopCountdown();
   hideStartBtn();
   showPopUpMsg(txt);
+  stopSound(bg_audio);
 }
 
 function init() {
@@ -131,6 +140,7 @@ function startCountdown() {
   function second_start() {
     if (leftTime == 0) {
       gameStop(lose);
+      playSound(lose_audio);
       clearInterval(timer_start);
       return;
     }
@@ -150,11 +160,23 @@ function updateScore(event) {
 
   let leftCarrot = initialCarrot;
   clickedCarrot.remove();
+  playSound(carrot_audio);
   --leftCarrot;
+
   count.innerText = leftCarrot;
 
   if (leftCarrot === 0) {
+    playSound(win_audio);
     gameStop(win);
     return;
   }
+}
+
+function playSound(sound) {
+  sound.play();
+  sound.currentTime = 0;
+}
+
+function stopSound(sound) {
+  sound.pause();
 }
