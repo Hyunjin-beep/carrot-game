@@ -1,10 +1,12 @@
 //when the start button is clicked, the images will be showed.
 const extra_size = 100;
 const startBtn = document.querySelector(".startBtn");
+// const playingBtn = document.querySelector(".fa-square");
 const startBtnImg = document.querySelector(".fas");
 const character = document.querySelector(".characters");
 const count = document.querySelector(".count");
 const timer = document.querySelector(".timer");
+const popUp = document.querySelector(".loseAndWin");
 
 let timer_start;
 let started = false; //default
@@ -34,7 +36,12 @@ function gameStart() {
 }
 
 function gameStop() {
-  console.log("stop");
+  popUp.classList.remove("loseAndWin_hide");
+  stopCountdown();
+}
+
+function stopCountdown() {
+  clearInterval(timer_start);
 }
 
 function init() {
