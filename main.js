@@ -1,12 +1,12 @@
 //when the start button is clicked, the images will be showed.
 const extra_size = 100;
 const startBtn = document.querySelector(".startBtn");
-// const playingBtn = document.querySelector(".fa-square");
 const startBtnImg = document.querySelector(".fas");
 const character = document.querySelector(".characters");
 const count = document.querySelector(".count");
 const timer = document.querySelector(".timer");
 const popUp = document.querySelector(".loseAndWin");
+const popUpMsg = document.querySelector(".popUpMsg");
 
 let timer_start;
 let started = false; //default
@@ -36,12 +36,9 @@ function gameStart() {
 }
 
 function gameStop() {
-  popUp.classList.remove("loseAndWin_hide");
   stopCountdown();
-}
-
-function stopCountdown() {
-  clearInterval(timer_start);
+  hideStartBtn();
+  showPopUpMessage("REPLAY ❓");
 }
 
 function init() {
@@ -55,6 +52,15 @@ function init() {
 function showTimerAndCount() {
   timer.style.visibility = "visible";
   count.style.visibility = "visible";
+}
+
+function showPopUpMessage(txt) {
+  popUp.classList.remove("loseAndWin_hide");
+  popUpMsg.innerText = txt;
+}
+
+function hideStartBtn() {
+  startBtn.style.visibility = "hidden";
 }
 
 function createItem(className, imgPath) {
@@ -93,4 +99,8 @@ function startCountdown() {
     --seconds;
     timer.innerHTML = `00:${seconds < 10 ? `0${seconds}` : seconds}`;
   }
+}
+
+function stopCountdown() {
+  clearInterval(timer_start);
 }

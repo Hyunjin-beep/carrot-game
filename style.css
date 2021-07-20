@@ -87,7 +87,7 @@
   display: none;
 }
 
-.loseAndWin span {
+.loseAndWin .popUpMsg {
   margin: 10px 0px;
 }
 
