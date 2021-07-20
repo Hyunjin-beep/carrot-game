@@ -29,54 +29,38 @@ startBtn.addEventListener("click", (event) => {
     // false
     gameStart();
   }
-  started = !started;
   // 게임이 진행 중인지 아닌지 알려줌.
   // 동일한 버튼을 눌렀을 때, 게임의 상태를 알지 못하면 작동이 안됨.
   // started가 true 즉 게임이 실행되면 중지 함수, false라면 시작 함수
 });
 
 redoBtn.addEventListener("click", (event) => {
-  started = true;
-  hidePopUpMsg();
   gameStart();
-  showStartBtn();
 });
 
 character.addEventListener("click", (event) => {
-  if (event.target.className === "bug") {
-    gameStop(lose);
+  if (!started) {
+    return;
   }
-});
-
-character.addEventListener("click", (event) => {
-  if (event.target.className === "carrot") {
-    const carrot = document.querySelectorAll(".carrot");
-    const clickedCarrot = event.target;
-    const initialCarrot = carrot.length;
-
-    // const time = timer.innerText;
-    // const leftSecond = time.substr(time.length - 1, 1).trim();
-    // console.log(leftSecond);
-
-    let leftCarrot = initialCarrot;
-    clickedCarrot.remove();
-    --leftCarrot;
-    count.innerText = leftCarrot;
-
-    if (leftCarrot === 0) {
-      gameStop(win);
-      return;
-    }
+  const target = event.target;
+  if (target.className === "bug") {
+    gameStop(lose);
+  } else if (target.className === "carrot") {
+    updateScore(event);
   }
 });
 
 function gameStart() {
+  started = true;
   init();
+  showStartBtn();
   startBtnImg.className = "fas fa-square";
   startCountdown();
+  hidePopUpMsg();
 }
 
 function gameStop(txt) {
+  started = false;
   stopCountdown();
   hideStartBtn();
   showPopUpMsg(txt);
@@ -157,4 +141,20 @@ function startCountdown() {
 
 function stopCountdown() {
   clearInterval(timer_start);
+}
+
+function updateScore(event) {
+  const carrot = document.querySelectorAll(".carrot");
+  const clickedCarrot = event.target;
+  const initialCarrot = carrot.length;
+
+  let leftCarrot = initialCarrot;
+  clickedCarrot.remove();
+  --leftCarrot;
+  count.innerText = leftCarrot;
+
+  if (leftCarrot === 0) {
+    gameStop(win);
+    return;
+  }
 }
