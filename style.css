@@ -53,6 +53,7 @@
   border-radius: 20px;
   background-color: rgb(255, 255, 255);
   visibility: hidden;
+  user-select: none;
 }
 
 .count {
@@ -64,6 +65,7 @@
   text-align: center;
   background-color: rgb(240, 190, 54);
   visibility: hidden;
+  user-select: none;
 }
 
 .loseAndWin {
@@ -90,6 +92,7 @@
 
 .loseAndWin .popUpMsg {
   margin: 10px 0px;
+  user-select: none;
 }
 
 .redoBtn {
