@@ -8,6 +8,9 @@ const timer = document.querySelector(".timer");
 
 const popUp = document.querySelector(".loseAndWin");
 const popUpMsg = document.querySelector(".popUpMsg");
+const replay = "REPLAY ❓";
+const lose = "YOU LOST ☢";
+const win = "YOU WON ❤";
 
 const redoBtn = document.querySelector(".redoBtn");
 
@@ -21,7 +24,7 @@ const characterHeight = character.getBoundingClientRect().height;
 startBtn.addEventListener("click", (event) => {
   if (started) {
     // true
-    gameStop();
+    gameStop(replay);
   } else {
     // false
     gameStart();
@@ -33,8 +36,38 @@ startBtn.addEventListener("click", (event) => {
 });
 
 redoBtn.addEventListener("click", (event) => {
+  started = true;
   hidePopUpMsg();
   gameStart();
+  showStartBtn();
+});
+
+character.addEventListener("click", (event) => {
+  if (event.target.className === "bug") {
+    gameStop(lose);
+  }
+});
+
+character.addEventListener("click", (event) => {
+  if (event.target.className === "carrot") {
+    const carrot = document.querySelectorAll(".carrot");
+    const clickedCarrot = event.target;
+    const initialCarrot = carrot.length;
+
+    // const time = timer.innerText;
+    // const leftSecond = time.substr(time.length - 1, 1).trim();
+    // console.log(leftSecond);
+
+    let leftCarrot = initialCarrot;
+    clickedCarrot.remove();
+    --leftCarrot;
+    count.innerText = leftCarrot;
+
+    if (leftCarrot === 0) {
+      gameStop(win);
+      return;
+    }
+  }
 });
 
 function gameStart() {
@@ -43,10 +76,10 @@ function gameStart() {
   startCountdown();
 }
 
-function gameStop() {
+function gameStop(txt) {
   stopCountdown();
   hideStartBtn();
-  showPopUpMessage("REPLAY ❓");
+  showPopUpMsg(txt);
 }
 
 function init() {
@@ -62,13 +95,17 @@ function showTimerAndCount() {
   count.style.visibility = "visible";
 }
 
-function showPopUpMessage(txt) {
+function showPopUpMsg(txt) {
   popUp.classList.remove("loseAndWin_hide");
   popUpMsg.innerText = txt;
 }
 
 function hidePopUpMsg() {
   popUp.classList.add("loseAndWin_hide");
+}
+
+function showStartBtn() {
+  startBtn.style.visibility = "visible";
 }
 
 function hideStartBtn() {
@@ -87,7 +124,10 @@ function createItem(className, imgPath) {
 
     const randomTop = getRandomNumber(0, characterHeight - extra_size);
     const randomLeft = getRandomNumber(0, characterWidth - extra_size);
-    img.style.transform = `translate(${randomLeft}px, ${randomTop}px)`;
+    // when using transform in here, i cannot use transition in css
+    // img.style.transform = `translate(${randomLeft}px, ${randomTop}px)`;
+    img.style.top = `${randomTop}px`;
+    img.style.left = `${randomLeft}px`;
   }
 
   if (className === "carrot") {
@@ -105,7 +145,8 @@ function startCountdown() {
   timer_start = setInterval(second_start, 1000);
 
   function second_start() {
-    if (leftTime <= 0) {
+    if (leftTime == 0) {
+      gameStop(lose);
       clearInterval(timer_start);
       return;
     }
