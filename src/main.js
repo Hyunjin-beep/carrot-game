@@ -1,11 +1,13 @@
 "use strict";
 
 import PopUp from "./popUp.js";
+import Character from "./character.js";
+
 //when the start button is clicked, the images will be showed.
 const extra_size = 100;
 const startBtn = document.querySelector(".startBtn");
 const startBtnImg = document.querySelector(".fas");
-const character = document.querySelector(".characters");
+
 const count = document.querySelector(".count");
 const timer = document.querySelector(".timer");
 
@@ -26,8 +28,11 @@ let seconds = 10;
 const gameFinishPopUp = new PopUp();
 gameFinishPopUp.setClickListener(gameStart);
 
-const characterWidth = character.getBoundingClientRect().width;
-const characterHeight = character.getBoundingClientRect().height;
+const gameCharacter = new Character();
+gameCharacter.setClickListener(onCharacterClick);
+gameCharacter.setClickListener((event) => {
+  updateScore(event);
+});
 
 startBtn.addEventListener("click", (event) => {
   if (started) {
@@ -42,22 +47,23 @@ startBtn.addEventListener("click", (event) => {
   // started가 true 즉 게임이 실행되면 중지 함수, false라면 시작 함수
 });
 
-character.addEventListener("click", (event) => {
+function onCharacterClick(item) {
+  console.log("onCH");
   if (!started) {
     return;
   }
-  const target = event.target;
-  if (target.className === "bug") {
-    playSound(bug_audio);
+  if (item === "bug") {
     gameStop(lose);
-  } else if (target.className === "carrot") {
-    updateScore(event);
+    console.log("bug");
+  } else if (item === "carrot") {
+    // updateScore(event);
+    console.log("carrot ");
   }
-});
+}
 
 function gameStart() {
   started = true;
-  init();
+  initGame();
   showStartBtn();
   startBtnImg.className = "fas fa-square";
   startCountdown();
@@ -72,12 +78,10 @@ function gameStop(txt) {
   stopSound(bg_audio);
 }
 
-function init() {
+function initGame() {
   //게임을 새로 시작할 때마다, 필드는 비게 되어서 캐릭터들이 재배치
-  character.innerHTML = "";
-  createItem("bug", "img/bug.png");
-  createItem("carrot", "img/carrot.png");
   showTimerAndCount();
+  gameCharacter.init();
 }
 
 function showTimerAndCount() {
@@ -91,33 +95,6 @@ function showStartBtn() {
 
 function hideStartBtn() {
   startBtn.style.visibility = "hidden";
-}
-
-function createItem(className, imgPath) {
-  const imgNum = Math.floor(Math.random() * (10 - 1) + 1);
-
-  for (let i = 0; i < imgNum; i++) {
-    const img = document.createElement("img");
-    img.setAttribute("class", className);
-    img.src = `${imgPath}`;
-    img.style.position = "absolute";
-    character.appendChild(img);
-
-    const randomTop = getRandomNumber(0, characterHeight - extra_size);
-    const randomLeft = getRandomNumber(0, characterWidth - extra_size);
-    // when using transform in here, i cannot use transition in css
-    // img.style.transform = `translate(${randomLeft}px, ${randomTop}px)`;
-    img.style.top = `${randomTop}px`;
-    img.style.left = `${randomLeft}px`;
-  }
-
-  if (className === "carrot") {
-    count.innerText = `${imgNum}`;
-  }
-}
-
-function getRandomNumber(min, max) {
-  return Math.random() * (max - min) + min;
 }
 
 function startCountdown() {
