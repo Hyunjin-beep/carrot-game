@@ -13,6 +13,7 @@ export default class PopUp {
     });
   }
 
+  // similar to addEventListener
   setClickListener(onClick) {
     this.onClick = onClick;
   }
