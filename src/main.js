@@ -30,9 +30,6 @@ gameFinishPopUp.setClickListener(gameStart);
 
 const gameCharacter = new Character();
 gameCharacter.setClickListener(onCharacterClick);
-gameCharacter.setClickListener((event) => {
-  updateScore(event);
-});
 
 startBtn.addEventListener("click", (event) => {
   if (started) {
@@ -48,16 +45,13 @@ startBtn.addEventListener("click", (event) => {
 });
 
 function onCharacterClick(item) {
-  console.log("onCH");
   if (!started) {
     return;
   }
   if (item === "bug") {
     gameStop(lose);
-    console.log("bug");
   } else if (item === "carrot") {
     // updateScore(event);
-    console.log("carrot ");
   }
 }
 

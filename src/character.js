@@ -1,5 +1,6 @@
 "use strict";
 
+const carrotSound = new Audio("./sound/carrot_pull.mp3");
 const bug_audio = new Audio("./sound/bug_pull.mp3");
 const extra_size = 100;
 
@@ -12,8 +13,8 @@ export default class Character {
     this.count = document.querySelector(".count");
   }
 
-  setClickListener(onItemClick) {
-    this.onItemClick = onItemClick;
+  setClickListener(onFieldClick) {
+    this.onFieldClick = onFieldClick;
   }
 
   init() {
@@ -48,13 +49,13 @@ export default class Character {
 
   onClick(event) {
     const target = event.target;
-    if (target.matches(".bug")) {
+    if (target.className === "bug") {
       playSound(bug_audio);
-      console.log("bug");
-      this.onItemClick && this.onItemClick("bug");
-    } else if (target.matches(".carrot")) {
-      console.log("carrot");
-      this.onItemClick && this.onItemClick("carrot");
+      this.onFieldClick && this.onFieldClick("bug");
+    } else if (target.className === "carrot") {
+      target.remove();
+      playSound(carrotSound);
+      this.onFieldClick && this.onFieldClick("carrot");
     }
   }
 }
