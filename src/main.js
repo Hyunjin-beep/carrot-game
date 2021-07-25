@@ -2,6 +2,7 @@
 
 import PopUp from "./popUp.js";
 import Character from "./character.js";
+import * as sound from "./sound.js";
 
 //when the start button is clicked, the images will be showed.
 const extra_size = 100;
@@ -14,12 +15,6 @@ const timer = document.querySelector(".timer");
 const replay = "REPLAY ❓";
 const lose = "YOU LOST ☢";
 const win = "YOU WON ❤";
-
-const bg_audio = new Audio("./sound/bg.mp3");
-const carrot_audio = new Audio("./sound/carrot_pull.mp3");
-const bug_audio = new Audio("./sound/bug_pull.mp3");
-const win_audio = new Audio("./sound/game_win.mp3");
-const lose_audio = new Audio("./sound/alert.wav");
 
 let timer_start;
 let started = false; //default
@@ -61,7 +56,7 @@ function gameStart() {
   showStartBtn();
   startBtnImg.className = "fas fa-square";
   startCountdown();
-  playSound(bg_audio);
+  sound.playBg();
 }
 
 function gameStop(txt) {
@@ -69,7 +64,8 @@ function gameStop(txt) {
   stopCountdown();
   hideStartBtn();
   gameFinishPopUp.showMsg(txt);
-  stopSound(bg_audio);
+  sound.playAlert();
+  sound.stopBg();
 }
 
 function initGame() {
@@ -99,7 +95,7 @@ function startCountdown() {
   function second_start() {
     if (leftTime == 0) {
       gameStop(lose);
-      playSound(lose_audio);
+      sound.playBug();
       clearInterval(timer_start);
       return;
     }
@@ -119,23 +115,14 @@ function updateScore(event) {
 
   let leftCarrot = initialCarrot;
   clickedCarrot.remove();
-  playSound(carrot_audio);
+  sound.playCarrot();
   --leftCarrot;
 
   count.innerText = leftCarrot;
 
   if (leftCarrot === 0) {
-    playSound(win_audio);
+    sound.playWin();
     gameStop(win);
     return;
   }
-}
-
-function playSound(sound) {
-  sound.play();
-  sound.currentTime = 0;
-}
-
-function stopSound(sound) {
-  sound.pause();
 }
