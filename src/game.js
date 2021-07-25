@@ -95,19 +95,17 @@ export default class Game {
   startCountdown() {
     let leftTime = this.seconds;
     this.timer.innerHTML = `00:${leftTime < 10 ? `0${leftTime}` : leftTime}`;
-    this.timer_start = setInterval(this.second_start(leftTime), 1000);
-  }
+    this.timer_start = setInterval(() => {
+      if (leftTime == 0) {
+        clearInterval(this.timer_start);
+        this.gameStop(this.lose);
+        sound.playBug();
 
-  second_start(leftTime) {
-    if (leftTime == 0) {
-      this.gameStop(lose);
-      sound.playBug();
-      clearInterval(this.timer_start);
-
-      return;
-    }
-    --leftTime;
-    this.timer.innerHTML = `00:${leftTime < 10 ? `0${leftTime}` : leftTime}`;
+        return;
+      }
+      --leftTime;
+      this.timer.innerHTML = `00:${leftTime < 10 ? `0${leftTime}` : leftTime}`;
+    }, 1000);
   }
 
   stopCountdown() {
