@@ -24,7 +24,9 @@ const gameFinishPopUp = new PopUp();
 gameFinishPopUp.setClickListener(gameStart);
 
 const gameCharacter = new Character();
-gameCharacter.setClickListener(onCharacterClick);
+gameCharacter.setClickListener((event) => {
+  onCharacterClick(event);
+});
 
 startBtn.addEventListener("click", (event) => {
   if (started) {
@@ -46,7 +48,24 @@ function onCharacterClick(item) {
   if (item === "bug") {
     gameStop(lose);
   } else if (item === "carrot") {
-    // updateScore(event);
+    const carrot = document.querySelectorAll(".carrot");
+    const initialCarrot = carrot.length;
+    console.log(`${initialCarrot} in main`);
+    updateScore(initialCarrot);
+  }
+}
+
+function updateScore(initialCarrot) {
+  console.log(`${initialCarrot} in update`);
+  let leftCarrot = initialCarrot;
+  --leftCarrot;
+
+  count.innerText = leftCarrot + 1;
+
+  if (leftCarrot === -1) {
+    sound.playWin();
+    gameStop(win);
+    return;
   }
 }
 
@@ -106,23 +125,4 @@ function startCountdown() {
 
 function stopCountdown() {
   clearInterval(timer_start);
-}
-
-function updateScore(event) {
-  const carrot = document.querySelectorAll(".carrot");
-  const clickedCarrot = event.target;
-  const initialCarrot = carrot.length;
-
-  let leftCarrot = initialCarrot;
-  clickedCarrot.remove();
-  sound.playCarrot();
-  --leftCarrot;
-
-  count.innerText = leftCarrot;
-
-  if (leftCarrot === 0) {
-    sound.playWin();
-    gameStop(win);
-    return;
-  }
 }

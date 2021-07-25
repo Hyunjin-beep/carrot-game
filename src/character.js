@@ -8,7 +8,9 @@ export default class Character {
     this.character = document.querySelector(".characters");
     this.characterWidth = this.character.getBoundingClientRect().width;
     this.characterHeight = this.character.getBoundingClientRect().height;
+    this.onClick = this.onClick.bind(this);
     this.character.addEventListener("click", this.onClick);
+
     this.count = document.querySelector(".count");
   }
 
@@ -52,8 +54,11 @@ export default class Character {
       sound.playBug();
       this.onFieldClick && this.onFieldClick("bug");
     } else if (target.className === "carrot") {
-      target.remove();
       sound.playCarrot();
+      target.remove();
+      const carrot = document.querySelectorAll(".carrot");
+      const initialCarrot = carrot.length;
+      console.log(`${initialCarrot} in field`);
       this.onFieldClick && this.onFieldClick("carrot");
     }
   }
