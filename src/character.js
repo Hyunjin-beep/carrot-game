@@ -56,9 +56,6 @@ export default class Character {
     } else if (target.className === "carrot") {
       sound.playCarrot();
       target.remove();
-      const carrot = document.querySelectorAll(".carrot");
-      const initialCarrot = carrot.length;
-      console.log(`${initialCarrot} in field`);
       this.onFieldClick && this.onFieldClick("carrot");
     }
   }

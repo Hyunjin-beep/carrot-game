@@ -5,7 +5,6 @@ import Character from "./character.js";
 import * as sound from "./sound.js";
 
 //when the start button is clicked, the images will be showed.
-const extra_size = 100;
 const startBtn = document.querySelector(".startBtn");
 const startBtnImg = document.querySelector(".fas");
 
@@ -48,15 +47,11 @@ function onCharacterClick(item) {
   if (item === "bug") {
     gameStop(lose);
   } else if (item === "carrot") {
-    const carrot = document.querySelectorAll(".carrot");
-    const initialCarrot = carrot.length;
-    console.log(`${initialCarrot} in main`);
     updateScore(initialCarrot);
   }
 }
 
 function updateScore(initialCarrot) {
-  console.log(`${initialCarrot} in update`);
   let leftCarrot = initialCarrot;
   --leftCarrot;
 
