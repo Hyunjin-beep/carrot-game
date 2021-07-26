@@ -100,7 +100,6 @@ export default class Game {
         clearInterval(this.timer_start);
         this.gameStop(this.lose);
         sound.playBug();
-
         return;
       }
       --leftTime;
