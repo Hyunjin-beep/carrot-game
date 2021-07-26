@@ -3,6 +3,12 @@
 import Character from "./character.js";
 import * as sound from "./sound.js";
 
+export const Reason = Object.freeze({
+  win: "win",
+  lose: "lose",
+  replay: "cancel",
+});
+
 export default class Game {
   constructor() {
     this.startBtn = document.querySelector(".startBtn");
@@ -29,10 +35,6 @@ export default class Game {
     this.count = document.querySelector(".count");
     this.timer = document.querySelector(".timer");
 
-    this.replay = "cancel";
-    this.lose = "lose";
-    this.win = "win";
-
     this.timer_start;
     this.started = false; //default
     this.seconds = 10;
@@ -47,7 +49,7 @@ export default class Game {
       return;
     }
     if (item === "bug") {
-      this.gameStop(this.lose);
+      this.gameStop(Reason.lose);
     } else if (item === "carrot") {
       const carrot = document.querySelectorAll(".carrot");
       const initialCarrot = carrot.length;
@@ -98,7 +100,7 @@ export default class Game {
     this.timer_start = setInterval(() => {
       if (leftTime == 0) {
         clearInterval(this.timer_start);
-        this.gameStop(this.lose);
+        this.gameStop(Reason.lose);
         sound.playBug();
         return;
       }
@@ -119,7 +121,7 @@ export default class Game {
 
     if (leftCarrot === -1) {
       sound.playWin();
-      this.gameStop(this.win);
+      this.gameStop(Reason.win);
       return;
     }
   }

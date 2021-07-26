@@ -1,7 +1,7 @@
 "use strict";
 
 import PopUp from "./popUp.js";
-import Game from "./game.js";
+import Game, { Reason } from "./game.js";
 
 //when the start button is clicked, the images will be showed.
 
@@ -13,15 +13,15 @@ gameFinishPopUp.setClickListener(() => {
 const game = new Game();
 game.setGameReasonListener((reason) => {
   switch (reason) {
-    case "cancel":
+    case Reason.replay:
       gameFinishPopUp.showMsg("REPLAY ❓");
       break;
 
-    case "lose":
+    case Reason.lose:
       gameFinishPopUp.showMsg("YOU LOST ☢");
       break;
 
-    case "win":
+    case Reason.win:
       gameFinishPopUp.showMsg("YOU WON ❤");
       break;
 
