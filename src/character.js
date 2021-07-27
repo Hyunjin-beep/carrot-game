@@ -3,6 +3,11 @@
 import * as sound from "./sound.js";
 const extra_size = 100;
 
+export const CharacterType = Object.freeze({
+  carrot: "carrot",
+  bug: "bug",
+});
+
 export default class Character {
   constructor() {
     this.character = document.querySelector(".characters");
@@ -52,11 +57,11 @@ export default class Character {
     const target = event.target;
     if (target.className === "bug") {
       sound.playBug();
-      this.onFieldClick && this.onFieldClick("bug");
+      this.onFieldClick && this.onFieldClick(CharacterType.bug);
     } else if (target.className === "carrot") {
       sound.playCarrot();
       target.remove();
-      this.onFieldClick && this.onFieldClick("carrot");
+      this.onFieldClick && this.onFieldClick(CharacterType.carrot);
     }
   }
 }
